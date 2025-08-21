@@ -63,25 +63,40 @@
   ERROR: Please input a valid command
   ___________________________________________________________
   ___________________________________________________________
-ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>
+  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>
   ___________________________________________________________
   ___________________________________________________________
-ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>
+  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>
   ___________________________________________________________
   ___________________________________________________________
-ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
+  ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
   ___________________________________________________________
   ___________________________________________________________
-An event needs a start time and end time. Use: event <desc> /from <start> /to <end>
+  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>
   ___________________________________________________________
   ___________________________________________________________
-ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
+  ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
   ___________________________________________________________
   ___________________________________________________________
-ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
+  ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>
   ___________________________________________________________
   ___________________________________________________________
-An event needs a start time and end time. Use: event <desc> /from <start> /to <end>
+  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>
+  ___________________________________________________________
+  ___________________________________________________________
+  ERROR: provide a valid task number! E.g. delete 1
+  ___________________________________________________________
+  ___________________________________________________________
+  ERROR: provide a valid task number! E.g. delete 1
+  ___________________________________________________________
+  ___________________________________________________________
+  Noted. I've removed this task:
+    [T][ ] read book
+  ___________________________________________________________
+  ___________________________________________________________
+  Here are the tasks in your list:
+  1. [D][X] return book (by: Sunday)
+  2. [E][ ] meet friends (from: Monday 2pm to: 4pm)
   ___________________________________________________________
   ___________________________________________________________
   Bye. Hope to see you again soon!

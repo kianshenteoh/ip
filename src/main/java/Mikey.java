@@ -83,11 +83,11 @@ public class Mikey {
                 String params = (t.length > 1) ? t[1].trim() : "";
 
                 if (params.isEmpty()) {
-                    System.out.println("ERROR: The description of a deadline cannot be empty! Use: deadline <desc> /by <time>");
+                    System.out.println("  ERROR: The description of a deadline cannot be empty! Use: deadline <desc> /by <time>");
                 } else {
                     String[] d = params.split("\\s*/by\\s+", 2);
                     if (d.length < 2 || d[0].isBlank() || d[1].isBlank()) {
-                        System.out.println("ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
+                        System.out.println("  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
                     } else {
                         taskList.addTask(new Deadline(d[0], d[1]));
                     }
@@ -98,21 +98,40 @@ public class Mikey {
                 String params = (t.length > 1) ? t[1].trim() : "";
 
                 if (params.isEmpty()) {
-                    System.out.println("ERROR: The description of an event cannot be empty! Use: event <desc> /from <start> /to <end>");
+                    System.out.println("  ERROR: The description of an event cannot be empty! Use: event <desc> /from <start> /to <end>");
                 } else {
                     String[] d = params.split("\\s*/from\\s+", 2);
                     if (d.length < 2 || d[0].isBlank()) {
-                        System.out.println("ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>");
+                        System.out.println("  ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>");
                     } else {
                         String[] times = d[1].split("\\s*/to\\s+", 2);
                         if (times.length < 2 || times[0].isBlank() || times[1].isBlank()) {
-                            System.out.println("An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
+                            System.out.println("  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
                         } else {
                             taskList.addTask(new Event(d[0], times[0], times[1]));
                         }
                     }
                 }
                 printLine();
+            } else if (input.equals("delete") || input.startsWith("delete ")) {
+                try {
+                    if (input.equals("delete")) {
+                        System.out.println("  ERROR: provide a valid task number! E.g. delete 1");
+                    } else {
+                        String[] words = input.split("\\s+");
+                        if (words.length > 1) {
+                            int index = Integer.parseInt(words[1]);
+                            taskList.deleteTask(index - 1);
+                        } else {
+                            System.out.println("  ERROR: provide a valid task number! E.g. delete 1");
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("  ERROR: provide a valid task number! E.g. delete 1");
+                } finally {
+                    printLine();
+                }
+
             } else {
                 System.out.println("  ERROR: Please input a valid command");
                 printLine();

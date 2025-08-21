@@ -19,4 +19,8 @@ event drink water /from Monday
 event drink water /to Friday
 event /from Monday / to Friday
 event drink water /to Monday /from Friday
+delete
+delete one
+delete 1
+list
 bye

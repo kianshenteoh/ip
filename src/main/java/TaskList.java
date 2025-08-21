@@ -45,6 +45,17 @@ public class TaskList {
         }
     }
 
+    public void deleteTask(int index) {
+        if (index >= 0 && index < tasks.size()) {
+            Task currTask = tasks.get(index);
+            tasks.remove(index);
+            System.out.println("  Noted. I've removed this task:");
+            System.out.println("    " + currTask);
+        } else {
+            System.out.println("  Task does not exist!");
+        }
+    }
+
     public int size() {
         return tasks.size();
     }
