@@ -17,7 +17,7 @@ public class TaskList {
             System.out.println("  Nice! I've marked this task as done:");
             System.out.println("    " + currTask);
         } else {
-            System.out.println("Task does not exist!");
+            System.out.println("  Task does not exist!");
         }
     }
 
@@ -28,13 +28,13 @@ public class TaskList {
             System.out.println("  Ok, I've marked this task as not done yet:");
             System.out.println("    " + currTask);
         } else {
-            System.out.println("Task does not exist!");
+            System.out.println("  Task does not exist!");
         }
     }
 
     public void printTasks() {
         if (tasks.isEmpty()) {
-            System.out.println("No tasks yet!");
+            System.out.println("  No tasks yet!");
             return;
         }
         System.out.println("  Here are the tasks in your list:");

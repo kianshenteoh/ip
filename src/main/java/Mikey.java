@@ -32,23 +32,39 @@ public class Mikey {
             if (input.equals("list")) {
                 taskList.printTasks();
                 printLine();
-            } else if (input.startsWith("mark ")) {
+            } else if (input.equals("mark") || input.startsWith("mark ")) {
                 try {
-                    String[] words = input.split(" ");
-                    int index = Integer.parseInt(words[1]);
-                    taskList.markTask(index - 1);
+                    if (input.equals("mark")) {
+                        System.out.println("  ERROR: provide a valid task number! E.g. mark 1");
+                    } else {
+                        String[] words = input.split("\\s+");
+                        if (words.length > 1) {
+                            int index = Integer.parseInt(words[1]);
+                            taskList.markTask(index - 1);
+                        } else {
+                            System.out.println(" ERROR: provide a valid task number! E.g. mark 1");
+                        }
+                    }
                 } catch (NumberFormatException e) {
-                    System.out.println("ERROR: provide a valid task number!");
+                    System.out.println("  ERROR: provide a valid task number! E.g. mark 1");
                 } finally {
                     printLine();
                 }
-            } else if (input.startsWith("unmark ")) {
+            } else if (input.equals("unmark") || input.startsWith("unmark ")) {
                 try {
-                    String[] words = input.split(" ");
-                    int index = Integer.parseInt(words[1]);
-                    taskList.unmarkTask(index - 1);
+                    if (input.equals("unmark")) {
+                        System.out.println("  ERROR: provide a valid task number! E.g. unmark 1");
+                    } else {
+                        String[] words = input.split(" ");
+                        if (words.length > 1) {
+                            int index = Integer.parseInt(words[1]);
+                            taskList.unmarkTask(index - 1);
+                        } else {
+                            System.out.println("  ERROR: provide a valid task number! E.g. unmark 1");
+                        }
+                    }
                 } catch (NumberFormatException e) {
-                    System.out.println("ERROR: provide a valid task number!");
+                    System.out.println("  ERROR: provide a valid task number! E.g. unmark 1");
                 } finally {
                     printLine();
                 }
@@ -56,28 +72,45 @@ public class Mikey {
             else if (input.equals("todo") || input.startsWith("todo ")) {
                 String description = input.substring(4).trim();
                 if (description.isEmpty()) {
-                    System.out.println("  ERROR: The description of a todo cannot be empty!");
+                    System.out.println("  ERROR: The description of a todo cannot be empty! Use: todo <desc>");
                 } else {
                     String[] words = input.split("todo ");
                     taskList.addTask(new Todo(words[1]));
                 }
                 printLine();
             } else if (input.equals("deadline") || input.startsWith("deadline ")){
-                String description = input.substring(4).trim();
-                if (!description.contains("/by")) {
-                    System.out.println("  ERROR: Set a deadline!");
+                String[] t = input.split("\\s+", 2);
+                String params = (t.length > 1) ? t[1].trim() : "";
+
+                if (params.isEmpty()) {
+                    System.out.println("ERROR: The description of a deadline cannot be empty! Use: deadline <desc> /by <time>");
                 } else {
-                    String[] words = input.split("deadline | /by ");
-                    taskList.addTask(new Deadline(words[1], words[2]));
+                    String[] d = params.split("\\s*/by\\s+", 2);
+                    if (d.length < 2 || d[0].isBlank() || d[1].isBlank()) {
+                        System.out.println("ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
+                    } else {
+                        taskList.addTask(new Deadline(d[0], d[1]));
+                    }
                 }
                 printLine();
             } else if (input.equals("event") || input.startsWith("event ")) {
-                String description = input.substring(4).trim();
-                if (!description.contains("/from") || !description.contains("/to")) {
-                    System.out.println("  ERROR: Set start and end date/time!");
+                String[] t = input.split("\\s+", 2);
+                String params = (t.length > 1) ? t[1].trim() : "";
+
+                if (params.isEmpty()) {
+                    System.out.println("ERROR: The description of an event cannot be empty! Use: event <desc> /from <start> /to <end>");
                 } else {
-                    String[] words = input.split("event | /from | /to ");
-                    taskList.addTask(new Event(words[1], words[2], words[3]));
+                    String[] d = params.split("\\s*/from\\s+", 2);
+                    if (d.length < 2 || d[0].isBlank()) {
+                        System.out.println("ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>");
+                    } else {
+                        String[] times = d[1].split("\\s*/to\\s+", 2);
+                        if (times.length < 2 || times[0].isBlank() || times[1].isBlank()) {
+                            System.out.println("An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
+                        } else {
+                            taskList.addTask(new Event(d[0], times[0], times[1]));
+                        }
+                    }
                 }
                 printLine();
             } else {

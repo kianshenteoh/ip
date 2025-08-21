@@ -4,9 +4,19 @@ event meet friends /from Monday 2pm /to 4pm
 list
 mark 1
 mark 2
+mark
+mark two
+list
+unmark 1
+unmark two
 list
 todo
 adsfiowjefoi
 deadline buy food
+deadline /by food
 event drink water
+event drink water /from Monday
+event drink water /to Friday
+event /from Monday / to Friday
+event drink water /to Monday /from Friday
 bye
