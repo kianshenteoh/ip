@@ -1,0 +1,12 @@
+todo read book
+deadline return book /by Sunday
+event meet friends /from Monday 2pm /to 4pm
+list
+mark 1
+mark 2
+list
+todo
+adsfiowjefoi
+deadline buy food
+event drink water
+bye

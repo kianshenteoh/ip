@@ -33,30 +33,55 @@ public class Mikey {
                 taskList.printTasks();
                 printLine();
             } else if (input.startsWith("mark ")) {
-                String[] words = input.split(" ");
-                int index = Integer.parseInt(words[1]);
-                taskList.markTask(index - 1);
-                printLine();
+                try {
+                    String[] words = input.split(" ");
+                    int index = Integer.parseInt(words[1]);
+                    taskList.markTask(index - 1);
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR: provide a valid task number!");
+                } finally {
+                    printLine();
+                }
             } else if (input.startsWith("unmark ")) {
-                String[] words = input.split(" ");
-                int index = Integer.parseInt(words[1]);
-                taskList.unmarkTask(index - 1);
-                printLine();
+                try {
+                    String[] words = input.split(" ");
+                    int index = Integer.parseInt(words[1]);
+                    taskList.unmarkTask(index - 1);
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR: provide a valid task number!");
+                } finally {
+                    printLine();
+                }
             }
-            else if (input.startsWith("todo ")) {
-                String[] words = input.split("todo ");
-                taskList.addTask(new Todo(words[1]));
+            else if (input.equals("todo") || input.startsWith("todo ")) {
+                String description = input.substring(4).trim();
+                if (description.isEmpty()) {
+                    System.out.println("  ERROR: The description of a todo cannot be empty!");
+                } else {
+                    String[] words = input.split("todo ");
+                    taskList.addTask(new Todo(words[1]));
+                }
                 printLine();
-            } else if (input.startsWith("deadline ")){
-                String[] words = input.split("deadline | /by ");
-                taskList.addTask(new Deadline(words[1], words[2]));
+            } else if (input.equals("deadline") || input.startsWith("deadline ")){
+                String description = input.substring(4).trim();
+                if (!description.contains("/by")) {
+                    System.out.println("  ERROR: Set a deadline!");
+                } else {
+                    String[] words = input.split("deadline | /by ");
+                    taskList.addTask(new Deadline(words[1], words[2]));
+                }
                 printLine();
-            } else if (input.startsWith("event ")) {
-                String[] words = input.split("event | /from | /to ");
-                taskList.addTask(new Event(words[1], words[2], words[3]));
+            } else if (input.equals("event") || input.startsWith("event ")) {
+                String description = input.substring(4).trim();
+                if (!description.contains("/from") || !description.contains("/to")) {
+                    System.out.println("  ERROR: Set start and end date/time!");
+                } else {
+                    String[] words = input.split("event | /from | /to ");
+                    taskList.addTask(new Event(words[1], words[2], words[3]));
+                }
                 printLine();
             } else {
-                System.out.println("  Please input a valid command");
+                System.out.println("  ERROR: Please input a valid command");
                 printLine();
             }
             input = scanner.nextLine();
