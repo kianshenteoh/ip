@@ -5,7 +5,9 @@ public class TaskList {
 
     public void addTask(Task task) {
         tasks.add(task);
-        System.out.println("Added " + task.getDescription());
+        System.out.println("  Got it, I've added this task:");
+        System.out.println("    " + task.toString());
+        System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
     }
 
     public void markTask(int index) {

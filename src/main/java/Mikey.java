@@ -43,8 +43,20 @@ public class Mikey {
                 taskList.unmarkTask(index - 1);
                 printLine();
             }
-            else {
-                taskList.addTask(new Task(input));
+            else if (input.startsWith("todo ")) {
+                String[] words = input.split("todo ");
+                taskList.addTask(new Todo(words[1]));
+                printLine();
+            } else if (input.startsWith("deadline ")){
+                String[] words = input.split("deadline | /by ");
+                taskList.addTask(new Deadline(words[1], words[2]));
+                printLine();
+            } else if (input.startsWith("event ")) {
+                String[] words = input.split("event | /from | /to ");
+                taskList.addTask(new Event(words[1], words[2], words[3]));
+                printLine();
+            } else {
+                System.out.println("  Please input a valid command");
                 printLine();
             }
             input = scanner.nextLine();
