@@ -1,8 +1,12 @@
+import java.time.DateTimeException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Mikey {
     private static final String LINE = "  ___________________________________________________________";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     private static void printLine() {
         System.out.println(LINE);
@@ -93,8 +97,13 @@ public class Mikey {
                     if (d.length < 2 || d[0].isBlank() || d[1].isBlank()) {
                         System.out.println("  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
                     } else {
-                        taskList.addTask(new Deadline(d[0], d[1]));
-                        storage.save(taskList.getList());
+                        try {
+                            LocalDateTime by = LocalDateTime.parse(d[1], formatter);
+                            taskList.addTask(new Deadline(d[0], by));
+                            storage.save(taskList.getList());
+                        } catch (DateTimeException e) {
+                            System.out.println("  ERROR: please use format D/MM/YYYY HHMM (e.g. 2/12/2019 1800)");
+                        }
                     }
                 }
                 printLine();
@@ -113,8 +122,14 @@ public class Mikey {
                         if (times.length < 2 || times[0].isBlank() || times[1].isBlank()) {
                             System.out.println("  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
                         } else {
-                            taskList.addTask(new Event(d[0], times[0], times[1]));
-                            storage.save(taskList.getList());
+                            try {
+                                LocalDateTime from = LocalDateTime.parse(times[0], formatter);
+                                LocalDateTime to = LocalDateTime.parse(times[1], formatter);
+                                taskList.addTask(new Event(d[0], from, to));
+                                storage.save(taskList.getList());
+                            } catch (DateTimeException e) {
+                                System.out.println(" ERROR: please use format D/MM/YYYY HHMM (e.g. 2/12/2019 1800)");
+                            }
                         }
                     }
                 }
