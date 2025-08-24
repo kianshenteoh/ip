@@ -1,0 +1,2 @@
+T | 1 | meet friends
+D | 0 | cs2103T assignment
