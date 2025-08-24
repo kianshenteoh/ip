@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public class Mikey {
     private static final String LINE = "  ___________________________________________________________";
-    private static final TaskList taskList = new TaskList();
 
     private static void printLine() {
         System.out.println(LINE);
@@ -24,6 +23,8 @@ public class Mikey {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Storage storage = new Storage();
+        TaskList taskList = new TaskList(storage.load());
         greet();
 
         String input = scanner.nextLine();
@@ -41,6 +42,7 @@ public class Mikey {
                         if (words.length > 1) {
                             int index = Integer.parseInt(words[1]);
                             taskList.markTask(index - 1);
+                            storage.save(taskList.getList());
                         } else {
                             System.out.println(" ERROR: provide a valid task number! E.g. mark 1");
                         }
@@ -59,6 +61,7 @@ public class Mikey {
                         if (words.length > 1) {
                             int index = Integer.parseInt(words[1]);
                             taskList.unmarkTask(index - 1);
+                            storage.save(taskList.getList());
                         } else {
                             System.out.println("  ERROR: provide a valid task number! E.g. unmark 1");
                         }
@@ -76,6 +79,7 @@ public class Mikey {
                 } else {
                     String[] words = input.split("todo ");
                     taskList.addTask(new Todo(words[1]));
+                    storage.save(taskList.getList());
                 }
                 printLine();
             } else if (input.equals("deadline") || input.startsWith("deadline ")){
@@ -90,6 +94,7 @@ public class Mikey {
                         System.out.println("  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
                     } else {
                         taskList.addTask(new Deadline(d[0], d[1]));
+                        storage.save(taskList.getList());
                     }
                 }
                 printLine();
@@ -109,6 +114,7 @@ public class Mikey {
                             System.out.println("  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
                         } else {
                             taskList.addTask(new Event(d[0], times[0], times[1]));
+                            storage.save(taskList.getList());
                         }
                     }
                 }
@@ -122,6 +128,7 @@ public class Mikey {
                         if (words.length > 1) {
                             int index = Integer.parseInt(words[1]);
                             taskList.deleteTask(index - 1);
+                            storage.save(taskList.getList());
                         } else {
                             System.out.println("  ERROR: provide a valid task number! E.g. delete 1");
                         }
