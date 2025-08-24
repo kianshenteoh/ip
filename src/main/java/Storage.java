@@ -2,12 +2,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
 public class Storage {
     private final Path savePath = Paths.get("data", "mikey.txt");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -35,13 +38,14 @@ public class Storage {
                     t = new Todo(desc);
                     break;
                 case "D":
-                    String by = p.length >= 4 ? p[3] : "";
-                    t = new Deadline(desc, by);
+                    String by = p[3];
+                    LocalDateTime deadline = LocalDateTime.parse(by, formatter);
+                    t = new Deadline(desc, deadline);
                     break;
                 case "E":
-                    String from = p.length >= 4 ? p[3] : "";
-                    String to = p.length >= 5 ? p[4] : "";
-                    t = new Event(desc, from, to);
+                    String from = p[3];
+                    String to = p[4];
+                    t = new Event(desc, LocalDateTime.parse(from, formatter), LocalDateTime.parse(to, formatter));
                     break;
                 default:
                     //Skip unknown rows

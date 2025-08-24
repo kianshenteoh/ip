@@ -1,18 +1,22 @@
-public class Deadline extends Task {
-    protected String deadline;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String description, String deadline) {
+public class Deadline extends Task {
+    protected LocalDateTime deadline;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+
+    public Deadline(String description, LocalDateTime deadline) {
         super(description);
         this.deadline = deadline;
     }
 
     @Override
     public String toSaveString() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description;
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + this.deadline.format(formatter);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + this.deadline + ")";
+        return "[D]" + super.toString() + " (by: " + this.deadline.format(formatter) + ")";
     }
 }
