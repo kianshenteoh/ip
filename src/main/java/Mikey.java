@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Mikey {
     private static final String LINE = "  ___________________________________________________________";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     private static void printLine() {
         System.out.println(LINE);
@@ -98,7 +98,7 @@ public class Mikey {
                         System.out.println("  ERROR: A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
                     } else {
                         try {
-                            LocalDateTime by = LocalDateTime.parse(d[1], formatter);
+                            LocalDateTime by = LocalDateTime.parse(d[1], FORMATTER);
                             taskList.addTask(new Deadline(d[0], by));
                             storage.save(taskList.getList());
                         } catch (DateTimeException e) {
@@ -123,8 +123,8 @@ public class Mikey {
                             System.out.println("  ERROR: An event needs a start time and end time. Use: event <desc> /from <start> /to <end>");
                         } else {
                             try {
-                                LocalDateTime from = LocalDateTime.parse(times[0], formatter);
-                                LocalDateTime to = LocalDateTime.parse(times[1], formatter);
+                                LocalDateTime from = LocalDateTime.parse(times[0], FORMATTER);
+                                LocalDateTime to = LocalDateTime.parse(times[1], FORMATTER);
                                 taskList.addTask(new Event(d[0], from, to));
                                 storage.save(taskList.getList());
                             } catch (DateTimeException e) {
