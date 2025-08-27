@@ -9,8 +9,12 @@ import java.util.List;
 import java.io.IOException;
 
 public class Storage {
-    private final Path savePath = Paths.get("data", "mikey.txt");
+    private Path savePath;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+
+    public Storage(String filePath) {
+        this.savePath = Paths.get(filePath);
+    }
 
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();

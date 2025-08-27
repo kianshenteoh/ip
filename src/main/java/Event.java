@@ -14,7 +14,8 @@ public class Event extends Task {
 
     @Override
     public String toSaveString() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start + " | " + this.end;
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start.format(FORMATTER) + " | " +
+                this.end.format(FORMATTER);
     }
 
     @Override
