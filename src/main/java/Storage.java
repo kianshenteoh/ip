@@ -9,8 +9,12 @@ import java.util.List;
 import java.io.IOException;
 
 public class Storage {
-    private final Path savePath = Paths.get("data", "mikey.txt");
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+    private Path savePath;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+
+    public Storage(String filePath) {
+        this.savePath = Paths.get(filePath);
+    }
 
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -39,13 +43,13 @@ public class Storage {
                     break;
                 case "D":
                     String by = p[3];
-                    LocalDateTime deadline = LocalDateTime.parse(by, formatter);
+                    LocalDateTime deadline = LocalDateTime.parse(by, FORMATTER);
                     t = new Deadline(desc, deadline);
                     break;
                 case "E":
                     String from = p[3];
                     String to = p[4];
-                    t = new Event(desc, LocalDateTime.parse(from, formatter), LocalDateTime.parse(to, formatter));
+                    t = new Event(desc, LocalDateTime.parse(from, FORMATTER), LocalDateTime.parse(to, FORMATTER));
                     break;
                 default:
                     //Skip unknown rows

@@ -1,6 +1,6 @@
 todo read book
-deadline return book /by Sunday
-event meet friends /from Monday 2pm /to 4pm
+deadline return book /by 27/8/2025 2359
+event meet friends /from 27/8/2025 2312 /to 28/8/2025 1200
 list
 mark 1
 mark 2

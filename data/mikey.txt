@@ -1,3 +1,3 @@
-D | 0 | do something | Aug 25 2025, 6.00pm
-D | 1 | do something else | Aug 26 2025, 12.00am
-E | 1 | meet friends | 2025-08-25T14:00 | 2025-08-25T18:00
+T | 0 | meet someone
+E | 0 | meeting | Dec 02 2025, 6.00pm | Dec 02 2025, 9.00pm
+D | 0 | assignment | Aug 27 2025, 11.59pm

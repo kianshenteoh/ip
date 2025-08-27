@@ -3,7 +3,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     protected LocalDateTime deadline;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
     public Deadline(String description, LocalDateTime deadline) {
         super(description);
@@ -12,11 +12,11 @@ public class Deadline extends Task {
 
     @Override
     public String toSaveString() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + this.deadline.format(formatter);
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + this.deadline.format(FORMATTER);
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + this.deadline.format(formatter) + ")";
+        return "[D]" + super.toString() + " (by: " + this.deadline.format(FORMATTER) + ")";
     }
 }

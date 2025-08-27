@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 public class Event extends Task {
     protected LocalDateTime start;
     protected LocalDateTime end;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
     public Event(String description, LocalDateTime start, LocalDateTime end) {
         super(description);
@@ -14,11 +14,12 @@ public class Event extends Task {
 
     @Override
     public String toSaveString() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start + " | " + this.end;
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start.format(FORMATTER) + " | " +
+                this.end.format(FORMATTER);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start.format(formatter) + " to: " + end.format(formatter) + ")";
+        return "[E]" + super.toString() + " (from: " + start.format(FORMATTER) + " to: " + end.format(FORMATTER) + ")";
     }
 }
