@@ -1,3 +1,5 @@
+package mikey.task;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class TaskList {
             System.out.println("  Nice! I've marked this task as done:");
             System.out.println("    " + currTask);
         } else {
-            System.out.println("  Task does not exist!");
+            System.out.println("  mikey.task.Task does not exist!");
         }
     }
 
@@ -39,7 +41,7 @@ public class TaskList {
             System.out.println("  Ok, I've marked this task as not done yet:");
             System.out.println("    " + currTask);
         } else {
-            System.out.println("  Task does not exist!");
+            System.out.println("  mikey.task.Task does not exist!");
         }
     }
 
@@ -63,7 +65,7 @@ public class TaskList {
             System.out.println("  Noted. I've removed this task:");
             System.out.println("    " + currTask);
         } else {
-            System.out.println("  Task does not exist!");
+            System.out.println("  mikey.task.Task does not exist!");
         }
     }
 

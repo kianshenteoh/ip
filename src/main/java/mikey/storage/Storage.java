@@ -1,3 +1,10 @@
+package mikey.storage;
+
+import mikey.task.Deadline;
+import mikey.task.Event;
+import mikey.task.Task;
+import mikey.task.Todo;
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
