@@ -83,7 +83,8 @@ public class Parser {
                 r.arguments = new Arguments();
                 String[] descEvent = args.split("\\s*/from\\s+", 2);
                 if (descEvent.length < 2) {
-                    return error("ERROR: An event needs '/from <start>. Use: event <desc> /from <start> /to <end>");
+                    return error("ERROR: An event needs '/from <start>. " +
+                            "Use: event <desc> /from <start> /to <end>");
                 }
                 String[] timesEvent = descEvent[1].split("\\s*/to\\s+", 2);
                 if (timesEvent.length < 2) {
