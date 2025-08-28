@@ -16,6 +16,11 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Adds a task to the task list
+     *
+     * @param task Task to be added
+     */
     public void addTask(Task task) {
         tasks.add(task);
         System.out.println("  Got it, I've added this task:");
@@ -23,6 +28,11 @@ public class TaskList {
         System.out.println("  Now you have " + tasks.size() + " tasks in the list.");
     }
 
+    /**
+     * Marks a task as complete
+     *
+     * @param index Index of task to be marked
+     */
     public void markTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             Task currTask = tasks.get(index);
@@ -34,6 +44,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks a task as incomplete
+     *
+     * @param index Index of a task to be unmarked
+     */
     public void unmarkTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             Task currTask = tasks.get(index);
@@ -45,6 +60,9 @@ public class TaskList {
         }
     }
 
+    /**
+     * Prints the list of tasks
+     */
     public void printTasks() {
         if (tasks.isEmpty()) {
             System.out.println("  No tasks yet!");
@@ -58,6 +76,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Deletes a task
+     *
+     * @param index Index of task to be deleted
+     */
     public void deleteTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             Task currTask = tasks.get(index);
@@ -69,6 +92,10 @@ public class TaskList {
         }
     }
 
+    /**
+     * Returns the size of the task list
+     * @return Size of task list
+     */
     public int size() {
         return tasks.size();
     }

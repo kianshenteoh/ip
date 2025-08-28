@@ -23,6 +23,11 @@ public class Storage {
         this.savePath = Paths.get(filePath);
     }
 
+    /**
+     * Loads the data from savePath
+     *
+     * @return a list of tasks that are stored in savePath
+     */
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -73,6 +78,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves tasks into the savePath file
+     *
+     * @param tasks List of tasks to be saved
+     */
     public void save(List<Task> tasks) {
         try {
             if (Files.notExists(savePath.getParent())) {

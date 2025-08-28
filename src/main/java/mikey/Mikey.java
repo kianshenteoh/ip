@@ -30,6 +30,9 @@ public class Mikey {
         tasks = new TaskList(storage.load());
     }
 
+    /**
+     * Runs the program and asks for input
+     */
     public void run() {
         Scanner scanner = new Scanner(System.in);
         ui.greet();
