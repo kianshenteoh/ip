@@ -92,6 +92,16 @@ public class TaskList {
         }
     }
 
+    public TaskList findTasks(String keyword) {
+        TaskList foundTasks = new TaskList(null);
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                foundTasks.addTask(task);
+            }
+        }
+        return foundTasks;
+    }
+
     /**
      * Returns the size of the task list
      * @return Size of task list

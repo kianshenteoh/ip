@@ -2,22 +2,21 @@ package mikey;
 
 import mikey.parser.Parser;
 import mikey.storage.Storage;
-import mikey.task.Deadline;
-import mikey.task.Event;
-import mikey.task.TaskList;
-import mikey.task.Todo;
+import mikey.task.*;
 import mikey.ui.Ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
 public class Mikey {
     private static final String LINE = "  ___________________________________________________________";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-    private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
-    private Parser parser;
+    private final Storage storage;
+    private final TaskList tasks;
+    private final Ui ui;
+    private final Parser parser;
 
     private static void printLine() {
         System.out.println(LINE);
@@ -50,7 +49,6 @@ public class Mikey {
                     break;
                 case BYE:
                     ui.bye();
-                    input = scanner.nextLine();
                     return;
                 case MARK:
                     tasks.markTask(result.arguments.index - 1);
@@ -81,6 +79,11 @@ public class Mikey {
                 case DELETE:
                     tasks.deleteTask(result.arguments.index - 1);
                     storage.save(tasks.getList());
+                    input = scanner.nextLine();
+                    break;
+                case FIND:
+                    TaskList foundTasks = tasks.findTasks(result.arguments.keyword);
+                    ui.printFoundTasks(foundTasks);
                     input = scanner.nextLine();
                     break;
                 default:

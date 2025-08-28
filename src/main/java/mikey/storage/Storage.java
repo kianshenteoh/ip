@@ -16,7 +16,7 @@ import java.util.List;
 import java.io.IOException;
 
 public class Storage {
-    private Path savePath;
+    private final Path savePath;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
     public Storage(String filePath) {
