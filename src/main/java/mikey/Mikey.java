@@ -51,33 +51,42 @@ public class Mikey {
                     ui.bye();
                     return;
                 case MARK:
-                    tasks.markTask(result.arguments.index - 1);
+                    Task marked = tasks.markTask(result.arguments.index - 1);
+                    ui.printMarkTask(marked);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
                 case UNMARK:
-                    tasks.unmarkTask(result.arguments.index - 1);
+                    Task unmarked = tasks.unmarkTask(result.arguments.index - 1);
+                    ui.printUnmarkTask(unmarked);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
                 case TODO:
-                    tasks.addTask(new Todo(result.arguments.description));
+                    Task todo = new Todo(result.arguments.description);
+                    tasks.addTask(todo);
+                    ui.printAddTask(todo, tasks);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
                 case DEADLINE:
-                    tasks.addTask(new Deadline(result.arguments.description, result.arguments.byRaw));
+                    Task deadline = new Deadline(result.arguments.description, result.arguments.byRaw);
+                    tasks.addTask(deadline);
+                    ui.printAddTask(deadline, tasks);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
                 case EVENT:
-                    tasks.addTask(new Event(result.arguments.description, result.arguments.fromRaw,
-                            result.arguments.toRaw));
+                    Task event = new Event(result.arguments.description, result.arguments.fromRaw,
+                            result.arguments.toRaw);
+                    tasks.addTask(event);
+                    ui.printAddTask(event, tasks);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
                 case DELETE:
-                    tasks.deleteTask(result.arguments.index - 1);
+                    Task deleted = tasks.deleteTask(result.arguments.index - 1);
+                    ui.printDeleteTask(deleted);
                     storage.save(tasks.getList());
                     input = scanner.nextLine();
                     break;
