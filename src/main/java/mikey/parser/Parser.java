@@ -30,6 +30,13 @@ public class Parser {
         return e;
     }
 
+    /**
+     * Returns a parsed version of the input
+     * If input is null, return an error
+     *
+     * @param input user input
+     * @return parse result
+     */
     public static ParseResult parse(String input) {
         ParseResult r = new ParseResult();
         if (input == null || input.trim().isEmpty()) {
