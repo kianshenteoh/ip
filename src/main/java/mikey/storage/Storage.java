@@ -5,10 +5,10 @@ import mikey.task.Event;
 import mikey.task.Task;
 import mikey.task.Todo;
 
+import java.nio.file.Files;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class Storage {
             }
             Files.write(savePath, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
-
+            return;
         }
     }
 }

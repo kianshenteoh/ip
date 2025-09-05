@@ -2,11 +2,12 @@ package mikey;
 
 import mikey.parser.Parser;
 import mikey.storage.Storage;
-import mikey.task.*;
+import mikey.task.TaskList;
+import mikey.task.Task;
+import mikey.task.Deadline;
+import mikey.task.Event;
+import mikey.task.Todo;
 import mikey.ui.Ui;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -22,6 +23,11 @@ public class Mikey {
         System.out.println(LINE);
     }
 
+    /**
+     * Initializes Mikey Object
+     * @param filePath file path for data file
+     */
+    @SuppressWarnings("checkstyle:Regexp")
     public Mikey(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
