@@ -1,12 +1,11 @@
-package mikey;
+package mikey.main;
 
+import mikey.exception.MikeyException;
 import mikey.parser.Parser;
 import mikey.storage.Storage;
 import mikey.task.*;
 import mikey.ui.Ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -17,6 +16,7 @@ public class Mikey {
     private final TaskList tasks;
     private final Ui ui;
     private final Parser parser;
+    private boolean exit = false;
 
     private static void printLine() {
         System.out.println(LINE);
@@ -29,79 +29,97 @@ public class Mikey {
         tasks = new TaskList(storage.load());
     }
 
+    public String processParseResult(Parser.ParseResult result) throws MikeyException {
+        if (result.isError) {
+            return ui.printError(result.errorMessage);
+        }
+        switch (result.command) {
+        case LIST:
+            return ui.printTasks(tasks);
+        case BYE:
+            exit = true;
+            ui.bye();
+            throw new MikeyException(ui.bye());
+        case MARK:
+            Task marked = tasks.markTask(result.arguments.index - 1);
+            storage.save(tasks.getList());
+            return ui.printMarkTask(marked);
+        case UNMARK:
+            Task unmarked = tasks.unmarkTask(result.arguments.index - 1);
+            storage.save(tasks.getList());
+            return ui.printUnmarkTask(unmarked);
+        case TODO:
+            Task todo = new Todo(result.arguments.description);
+            tasks.addTask(todo);
+            storage.save(tasks.getList());
+            return ui.printAddTask(todo, tasks);
+        case DEADLINE:
+            Task deadline = new Deadline(result.arguments.description, result.arguments.byRaw);
+            tasks.addTask(deadline);
+            storage.save(tasks.getList());
+            return ui.printAddTask(deadline, tasks);
+        case EVENT:
+            Task event = new Event(result.arguments.description, result.arguments.fromRaw,
+                    result.arguments.toRaw);
+            tasks.addTask(event);
+            storage.save(tasks.getList());
+            return ui.printAddTask(event, tasks);
+        case DELETE:
+            Task deleted = tasks.deleteTask(result.arguments.index - 1);
+            storage.save(tasks.getList());
+            return ui.printDeleteTask(deleted);
+        case FIND:
+            TaskList foundTasks = tasks.findTasks(result.arguments.keyword);
+            return ui.printFoundTasks(foundTasks);
+        default:
+            return "";
+        }
+    }
     /**
      * Runs the program and asks for input
      */
     public void run() {
         Scanner scanner = new Scanner(System.in);
         ui.greet();
-        String input = scanner.nextLine();
         while (true) {
+            String input = scanner.nextLine();
             Parser.ParseResult result = parser.parse(input);
             if (result.isError) {
                 ui.printError(result.errorMessage);
-                input = scanner.nextLine();
             } else {
-                switch (result.command) {
-                case LIST:
-                    ui.printTasks(tasks);
-                    input = scanner.nextLine();
+                try {
+                    String response = this.processParseResult(result);
+                    System.out.println(response);
+                } catch (MikeyException e) {
+                    System.out.println(e.getMessage());
                     break;
-                case BYE:
-                    ui.bye();
-                    return;
-                case MARK:
-                    Task marked = tasks.markTask(result.arguments.index - 1);
-                    ui.printMarkTask(marked);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case UNMARK:
-                    Task unmarked = tasks.unmarkTask(result.arguments.index - 1);
-                    ui.printUnmarkTask(unmarked);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case TODO:
-                    Task todo = new Todo(result.arguments.description);
-                    tasks.addTask(todo);
-                    ui.printAddTask(todo, tasks);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case DEADLINE:
-                    Task deadline = new Deadline(result.arguments.description, result.arguments.byRaw);
-                    tasks.addTask(deadline);
-                    ui.printAddTask(deadline, tasks);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case EVENT:
-                    Task event = new Event(result.arguments.description, result.arguments.fromRaw,
-                            result.arguments.toRaw);
-                    tasks.addTask(event);
-                    ui.printAddTask(event, tasks);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case DELETE:
-                    Task deleted = tasks.deleteTask(result.arguments.index - 1);
-                    ui.printDeleteTask(deleted);
-                    storage.save(tasks.getList());
-                    input = scanner.nextLine();
-                    break;
-                case FIND:
-                    TaskList foundTasks = tasks.findTasks(result.arguments.keyword);
-                    ui.printFoundTasks(foundTasks);
-                    input = scanner.nextLine();
-                    break;
-                default:
                 }
+
             }
         }
     }
 
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            Parser.ParseResult result = parser.parse(input);
+            return processParseResult(result);
+        } catch (MikeyException e) {
+            return e.getMessage();
+        }
+    }
+
+    public Ui getUi() {
+        return ui;
+    }
+
+    public boolean isExit() {
+        return exit;
+    }
+
     public static void main(String[] args) {
-        new Mikey("data/mikey.txt").run();
+        new Mikey("../data/mikey.txt").run();
     }
 }
