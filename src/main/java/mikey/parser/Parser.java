@@ -157,6 +157,7 @@ public class Parser {
                 r.arguments.keyword = words[0];
                 break;
             default:
+                return error("Invalid input!");
             }
             if (r.command == null) {
                 return error("Please input a valid command");
