@@ -34,6 +34,8 @@ public class Ui {
     }
 
     public String printTasks(TaskList t) {
+        assert t != null : "TaskList must not be null";
+
         if (t.getList().isEmpty()) {
             return format("No tasks yet!");
         }

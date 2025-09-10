@@ -40,6 +40,8 @@ public class Parser {
      * @return parse result
      */
     public ParseResult parse(String input) {
+        assert input != null : "Input string must not be null";
+
         ParseResult r = new ParseResult();
         if (input == null || input.trim().isEmpty()) {
             return error("Please input a valid command");
