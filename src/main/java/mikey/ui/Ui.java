@@ -1,6 +1,5 @@
 package mikey.ui;
 
-import mikey.parser.Parser;
 import mikey.task.Task;
 import mikey.task.TaskList;
 
@@ -33,6 +32,11 @@ public class Ui {
         return format(message);
     }
 
+    /**
+     * Print the list of tasks
+     * @param t TaskList to be printed
+     * @return String to be printed
+     */
     public String printTasks(TaskList t) {
         if (t.getList().isEmpty()) {
             return format("No tasks yet!");
@@ -49,6 +53,11 @@ public class Ui {
         return sb.toString();
     }
 
+    /**
+     * Print the message upon deleting a task
+     * @param t Deleted task
+     * @return String to be printed
+     */
     public String printDeleteTask(Task t) {
         if (t != null) {
             return format("Noted. I've removed this task: \n  t.toString()");
@@ -57,11 +66,21 @@ public class Ui {
         }
     }
 
+    /**
+     * Print the message upon adding a task
+     * @param t Added task
+     * @return String to be printed
+     */
     public String printAddTask(Task t, TaskList l) {
         return format("Got it, I've added this task: \n  " + space(t.toString())
                 + "\n  Now you have " + l.getList().size() + " tasks in the list.");
     }
 
+    /**
+     * Print the message upon marking a task as done
+     * @param t Marked task
+     * @return String to be printed
+     */
     public String printMarkTask(Task t) {
         if (t != null) {
             return format("Nice! I've marked this task as done:\n  " + t.toString());
@@ -70,6 +89,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Print the message upon marking a task as not done
+     * @param t Unmarked task
+     * @return String to be printed
+     */
     public String printUnmarkTask(Task t) {
         if (t != null) {
             return format("Ok, I've marked this task as not done yet:\n  " + t.toString());
@@ -78,7 +102,11 @@ public class Ui {
         }
     }
 
-
+    /**
+     * Print the message upon finding tasks
+     * @param l TaskList that contains the tasks
+     * @return String to be printed
+     */
     public String printFoundTasks(TaskList l) {
         if (l.getList().isEmpty()) {
             return format("No matching tasks found!");
