@@ -40,6 +40,9 @@ public class Mikey {
      * @throws MikeyException Error thrown when user says "bye"
      */
     public String processParseResult(Parser.ParseResult result) throws MikeyException {
+        assert result != null : "ParseResult cannot be null!";
+        assert result.command != null : "ParseResult command cannot be null!";
+
         if (result.isError) {
             return ui.printError(result.errorMessage);
         }
