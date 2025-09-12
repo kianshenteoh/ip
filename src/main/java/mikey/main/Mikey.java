@@ -23,6 +23,10 @@ public class Mikey {
         System.out.println(LINE);
     }
 
+    /**
+     * Initializes a Mikey instance
+     * @param filePath File path of data file
+     */
     public Mikey(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -30,7 +34,14 @@ public class Mikey {
         tasks = new TaskList(storage.load());
     }
 
+    /**
+     * Processes the ParseResult returned from parser
+     * @param result ParseResult returned from parser
+     * @return String to be printed by Mikey
+     * @throws MikeyException Error thrown when user says "bye"
+     */
     public String processParseResult(Parser.ParseResult result) throws MikeyException {
+
         if (result.isError) {
             return ui.printError(result.errorMessage);
         }

@@ -19,7 +19,13 @@ public class Storage {
     private final Path savePath;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
+    /**
+     * Initializes a Storage instance
+     * @param filePath File path to be used as data file
+     */
     public Storage(String filePath) {
+        assert filePath != null : "File path must not be null";
+
         this.savePath = Paths.get(filePath);
     }
 
@@ -84,6 +90,8 @@ public class Storage {
      * @param tasks List of tasks to be saved
      */
     public void save(List<Task> tasks) {
+        assert tasks != null : "Task list must not be null";
+
         try {
             if (Files.notExists(savePath.getParent())) {
                 Files.createDirectories(savePath.getParent());

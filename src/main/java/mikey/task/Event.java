@@ -8,6 +8,12 @@ public class Event extends Task {
     protected LocalDateTime end;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
+    /**
+     * Initializes an Event instance
+     * @param description Description of task
+     * @param start start of event in "D/M/YYYY HHMM" format
+     * @param end end of event in "D/M/YYYY HHMM" format
+     */
     public Event(String description, LocalDateTime start, LocalDateTime end) {
         super(description);
         this.start = start;

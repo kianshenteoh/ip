@@ -2,6 +2,10 @@ package mikey.task;
 
 public class Todo extends Task {
 
+    /**
+     * Initializes a Todo instance
+     * @param description Description of task
+     */
     public Todo(String description) {
         super(description);
     }

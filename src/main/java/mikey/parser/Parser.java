@@ -1,5 +1,7 @@
 package mikey.parser;
 
+import mikey.exception.MikeyException;
+
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,6 +42,8 @@ public class Parser {
      * @return parse result
      */
     public ParseResult parse(String input) {
+        assert input != null : "Input string must not be null";
+
         ParseResult r = new ParseResult();
         if (input == null || input.trim().isEmpty()) {
             return error("Please input a valid command");
@@ -50,111 +54,62 @@ public class Parser {
         if (!command.isEmpty()) {
             switch (command) {
             case "bye":
-                r.command = Command.BYE;
+                handleBye(r, command, args);
                 break;
             case "list":
-                r.command = Command.LIST;
-                r.arguments = new Arguments();
+                handleList(r, command, args);
                 break;
             case "todo":
-                if (args.isEmpty()) {
-                    return error("The description of a todo cannot be empty! Use: todo <desc>");
+                try {
+                    handleTodo(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
-                r.command = Command.TODO;
-                r.arguments = new Arguments();
-                r.arguments.description = args;
                 break;
             case "deadline":
                 if (args.isEmpty()) {
                     return error("The description of a deadline cannot be empty! " + "Use: deadline <desc> /by <time>");
                 }
-                r.command = Command.DEADLINE;
-                r.arguments = new Arguments();
-                String[] descDeadline = args.split("\\s*/by\\s+", 2);
-                if (descDeadline.length < 2) {
-                    return error("A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
-                }
                 try {
-                    LocalDateTime by = LocalDateTime.parse(descDeadline[1].trim(), FORMATTER);
-                    r.arguments.description = descDeadline[0].trim();
-                    r.arguments.byRaw = by;
-                } catch (DateTimeException e) {
-                    return error("Please use format D/M/YYYY HHMM (e.g. 2/12/2019 1800)");
+                    handleDeadline(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
                 break;
             case "event":
-                if (args.isEmpty()) {
-                    return error("The description of an event cannot be empty! "
-                            + "Use: event <desc> /from <start> /to <end>");
-                }
-                r.command = Command.EVENT;
-                r.arguments = new Arguments();
-                String[] descEvent = args.split("\\s*/from\\s+", 2);
-                if (descEvent.length < 2) {
-                    return error("An event needs '/from <start>. " + "Use: event <desc> /from <start> /to <end>");
-                }
-                String[] timesEvent = descEvent[1].split("\\s*/to\\s+", 2);
-                if (timesEvent.length < 2) {
-                    return error("An event needs a start time and end time. "
-                            + "Use: event <desc> /from <start> /to <end>");
-                }
                 try {
-                    LocalDateTime from = LocalDateTime.parse(timesEvent[0].trim(), FORMATTER);
-                    LocalDateTime to = LocalDateTime.parse(timesEvent[1].trim(), FORMATTER);
-                    r.arguments.description = descEvent[0].trim();
-                    r.arguments.fromRaw = from;
-                    r.arguments.toRaw = to;
-                } catch (DateTimeException e) {
-                    return error("Please use format D/M/YYYY HHMM (e.g. 2/12/2019 1800)");
+                    handleEvent(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
                 break;
             case "mark":
-                if (args.isEmpty()) {
-                    return error("Provide a valid task number! E.g. mark 1");
-                }
-                r.command = Command.MARK;
-                r.arguments = new Arguments();
                 try {
-                    r.arguments.index = Integer.parseInt(args);
-                } catch (NumberFormatException e) {
-                    return error("Provide a valid task number! E.g. mark 1");
+                    handleMark(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
                 break;
             case "unmark":
-                if (args.isEmpty()) {
-                    return error("Provide a valid task number! E.g. unmark 1");
-                }
-                r.command = Command.UNMARK;
-                r.arguments = new Arguments();
                 try {
-                    r.arguments.index = Integer.parseInt(args);
-                } catch (NumberFormatException e) {
-                    return error("Provide a valid task number! E.g. mark 1");
+                    handleUnmark(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
                 break;
             case "delete":
-                if (args.isEmpty()) {
-                    return error("Provide a valid task number! E.g. delete 1");
-                }
-                r.command = Command.DELETE;
-                r.arguments = new Arguments();
                 try {
-                    r.arguments.index = Integer.parseInt(args);
-                } catch (NumberFormatException e) {
-                    return error("Provide a valid task number! E.g. delete 1");
+                    handleDelete(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
                 break;
             case "find":
-                if (args.isEmpty()) {
-                    return error("Provide a keyword! E.g. find book");
+                try {
+                    handleFind(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
                 }
-                r.command = Command.FIND;
-                r.arguments = new Arguments();
-                String[] words = args.split("\\s+");
-                if (words.length > 1) {
-                    return error("Provide only ONE keyword! E.g. find book");
-                }
-                r.arguments.keyword = words[0];
                 break;
             default:
                 return error("Invalid input!");
@@ -164,5 +119,119 @@ public class Parser {
             }
         }
         return r;
+    }
+
+    private void handleBye(ParseResult r, String command, String args) {
+        r.command = Command.BYE;
+    }
+
+    private void handleList(ParseResult r, String command, String args) {
+        r.command = Command.LIST;
+        r.arguments = new Arguments();
+    }
+
+    private void handleTodo(ParseResult r, String command, String args) throws MikeyException {
+        r.command = Command.TODO;
+        r.arguments = new Arguments();
+        r.arguments.description = args;
+    }
+
+    private void handleDeadline(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("The description of a deadline cannot be empty! "
+                    + "Use: deadline <desc> /by <time>");
+        }
+        r.command = Command.DEADLINE;
+        r.arguments = new Arguments();
+        String[] descDeadline = args.split("\\s*/by\\s+", 2);
+        if (descDeadline.length < 2) {
+            throw new MikeyException("A deadline needs '/by <time>'. Use: deadline <desc> /by <time>");
+        }
+        try {
+            LocalDateTime by = LocalDateTime.parse(descDeadline[1].trim(), FORMATTER);
+            r.arguments.description = descDeadline[0].trim();
+            r.arguments.byRaw = by;
+        } catch (DateTimeException e) {
+            throw new MikeyException("Please use format D/M/YYYY HHMM (e.g. 2/12/2019 1800)");
+        }
+    }
+
+    private void handleEvent(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("The description of an event cannot be empty! "
+                    + "Use: event <desc> /from <start> /to <end>");
+        }
+        r.command = Command.EVENT;
+        r.arguments = new Arguments();
+        String[] descEvent = args.split("\\s*/from\\s+", 2);
+        if (descEvent.length < 2) {
+            throw new MikeyException("An event needs '/from <start>. " + "Use: event <desc> /from <start> /to <end>");
+        }
+        String[] timesEvent = descEvent[1].split("\\s*/to\\s+", 2);
+        if (timesEvent.length < 2) {
+            throw new MikeyException("An event needs a start time and end time. "
+                    + "Use: event <desc> /from <start> /to <end>");
+        }
+        try {
+            LocalDateTime from = LocalDateTime.parse(timesEvent[0].trim(), FORMATTER);
+            LocalDateTime to = LocalDateTime.parse(timesEvent[1].trim(), FORMATTER);
+            r.arguments.description = descEvent[0].trim();
+            r.arguments.fromRaw = from;
+            r.arguments.toRaw = to;
+        } catch (DateTimeException e) {
+            throw new MikeyException("Please use format D/M/YYYY HHMM (e.g. 2/12/2019 1800)");
+        }
+    }
+
+    private void handleMark(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Provide a valid task number! E.g. mark 1");
+        }
+        r.command = Command.MARK;
+        r.arguments = new Arguments();
+        try {
+            r.arguments.index = Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            throw new MikeyException("Provide a valid task number! E.g. mark 1");
+        }
+    }
+
+    private void handleUnmark(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Provide a valid task number! E.g. unmark 1");
+        }
+        r.command = Command.UNMARK;
+        r.arguments = new Arguments();
+        try {
+            r.arguments.index = Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            throw new MikeyException("Provide a valid task number! E.g. mark 1");
+        }
+    }
+
+    private void handleDelete(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Provide a valid task number! E.g. delete 1");
+        }
+        r.command = Command.DELETE;
+        r.arguments = new Arguments();
+        try {
+            r.arguments.index = Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            throw new MikeyException("Provide a valid task number! E.g. delete 1");
+        }
+    }
+
+    private void handleFind(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Provide a keyword! E.g. find book");
+        }
+        r.command = Command.FIND;
+        r.arguments = new Arguments();
+        String[] words = args.split("\\s+");
+        if (words.length > 1) {
+            throw new MikeyException("Provide only ONE keyword! E.g. find book");
+        }
+        r.arguments.keyword = words[0];
     }
 }
