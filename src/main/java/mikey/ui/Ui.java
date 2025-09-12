@@ -5,6 +5,8 @@ import mikey.task.Task;
 import mikey.task.TaskList;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Ui {
     private static final String LINE = "  ________________________________________________________";
@@ -18,7 +20,7 @@ public class Ui {
         return LINE;
     }
     public String format(String string) {
-        return LINE + "\n" + space(string) + "\n  " + LINE;
+        return LINE + "\n" + space(string) + LINE;
     }
 
     public String greet() {
@@ -51,7 +53,7 @@ public class Ui {
 
     public String printDeleteTask(Task t) {
         if (t != null) {
-            return format("Noted. I've removed this task: \n  t.toString()");
+            return format("Noted. I've removed this task: \n  " +  t.toString());
         } else {
             return format("Task does not exist!");
         }
@@ -79,16 +81,12 @@ public class Ui {
     }
 
 
-    public String printFoundTasks(TaskList l) {
-        if (l.getList().isEmpty()) {
+    public String printFoundTasks(List<Task> l) {
+        if (l.isEmpty()) {
             return format("No matching tasks found!");
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append(LINE + "Here are the matching tasks in your list:");
-            for (Task task : l.getList()) {
-                sb.append("\n  " + task.toString());
-            }
-            return sb.toString();
+            String result = (LINE + " Here are the matching tasks in your list: \n ");
+            return result + l.stream().map(t -> t.toString()).collect(Collectors.joining("\n")) + LINE;
         }
     }
 

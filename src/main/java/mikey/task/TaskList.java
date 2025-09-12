@@ -70,14 +70,9 @@ public class TaskList {
         }
     }
 
-    public TaskList findTasks(String keyword) {
-        TaskList foundTasks = new TaskList(null);
-        for (Task task : tasks) {
-            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
-                foundTasks.addTask(task);
-            }
-        }
-        return foundTasks;
+    public List<Task> findTasks(String keyword) {
+        return tasks.stream().filter(t -> t.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     /**
