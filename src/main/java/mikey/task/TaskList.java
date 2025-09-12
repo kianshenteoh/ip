@@ -73,20 +73,15 @@ public class TaskList {
             return null;
         }
     }
-
+  
     /**
      * Find the tasks that match the keyword
      * @param keyword Keyword used for searching
      * @return List of tasks that contain the keyword
-     */
-    public TaskList findTasks(String keyword) {
-        TaskList foundTasks = new TaskList(null);
-        for (Task task : tasks) {
-            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
-                foundTasks.addTask(task);
-            }
-        }
-        return foundTasks;
+    */
+    public List<Task> findTasks(String keyword) {
+        return tasks.stream().filter(t -> t.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                .toList();
     }
 
     /**

@@ -6,6 +6,7 @@ import mikey.storage.Storage;
 import mikey.task.*;
 import mikey.ui.Ui;
 
+import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 
@@ -80,7 +81,7 @@ public class Mikey {
             storage.save(tasks.getList());
             return ui.printDeleteTask(deleted);
         case FIND:
-            TaskList foundTasks = tasks.findTasks(result.arguments.keyword);
+            List<Task> foundTasks = tasks.findTasks(result.arguments.keyword);
             return ui.printFoundTasks(foundTasks);
         default:
             return "";
