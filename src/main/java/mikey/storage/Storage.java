@@ -19,6 +19,10 @@ public class Storage {
     private final Path savePath;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
+    /**
+     * Initializes a Storage instance
+     * @param filePath File path to be used as data file
+     */
     public Storage(String filePath) {
         assert filePath != null : "File path must not be null";
 

@@ -7,6 +7,11 @@ public class Deadline extends Task {
     protected LocalDateTime deadline;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h.mma");
 
+    /**
+     * Initializes a Deadline instance
+     * @param description Description of task
+     * @param deadline deadline of task in "D/M/YYYY HHMM" format
+     */
     public Deadline(String description, LocalDateTime deadline) {
         super(description);
         this.deadline = deadline;

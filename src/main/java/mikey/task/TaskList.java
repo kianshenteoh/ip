@@ -6,6 +6,10 @@ import java.util.List;
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
 
+    /**
+     * Initializes a TaskList instance
+     * @param initial List of tasks to be instantiated
+     */
     public TaskList(List<Task> initial) {
         if (initial != null) {
             tasks.addAll(initial);
@@ -70,6 +74,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Find the tasks that match the keyword
+     * @param keyword Keyword used for searching
+     * @return List of tasks that contain the keyword
+     */
     public TaskList findTasks(String keyword) {
         TaskList foundTasks = new TaskList(null);
         for (Task task : tasks) {
