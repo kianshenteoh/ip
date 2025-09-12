@@ -22,12 +22,18 @@ public class Event extends Task {
 
     @Override
     public String toSaveString() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start.format(FORMATTER) + " | " +
-                this.end.format(FORMATTER);
+        String result = "E | " + (isDone ? "1" : "0") + " | " + description + " | " + this.start.format(FORMATTER) +
+                " | " + this.end.format(FORMATTER);
+        if (isTagged()) {
+            return result + " | " + tag;
+        }
+        return result;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + start.format(FORMATTER) + " to: " + end.format(FORMATTER) + ")";
+        String result = "[E]" + super.toString() + "\n       (from: " + start.format(FORMATTER) + " to: " +
+                end.format(FORMATTER) + ")";
+        return result;
     }
 }

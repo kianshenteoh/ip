@@ -27,6 +27,8 @@ public class Storage {
         assert filePath != null : "File path must not be null";
 
         this.savePath = Paths.get(filePath);
+        System.out.println("Using data file at: " + savePath.toAbsolutePath());
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
     }
 
     /**
@@ -50,6 +52,9 @@ public class Storage {
 
                 //Split lines by spacer
                 String[] p = line.split("\\s*\\|\\s*");
+                if (p.length < 3) {
+                    continue;
+                }
                 String type = p[0];
                 boolean done = "1".equals(p[1]);
                 String desc = p.length >= 3 ? p[2] : "";
@@ -58,16 +63,25 @@ public class Storage {
                 switch (type) {
                 case "T":
                     t = new Todo(desc);
+                    if (p.length > 3) {
+                        handleTag(t, p[3]);
+                    }
                     break;
                 case "D":
                     String by = p[3];
                     LocalDateTime deadline = LocalDateTime.parse(by, FORMATTER);
                     t = new Deadline(desc, deadline);
+                    if (p.length > 4) {
+                        handleTag(t, p[4]);
+                    }
                     break;
                 case "E":
                     String from = p[3];
                     String to = p[4];
                     t = new Event(desc, LocalDateTime.parse(from, FORMATTER), LocalDateTime.parse(to, FORMATTER));
+                    if (p.length > 5) {
+                        handleTag(t, p[5]);
+                    }
                     break;
                 default:
                     //Skip unknown rows
@@ -82,6 +96,11 @@ public class Storage {
             return new ArrayList<>();
         }
         return tasks;
+    }
+
+    private void handleTag(Task t, String label) {
+        t.markTagged();
+        t.setTag(label);
     }
 
     /**

@@ -19,11 +19,16 @@ public class Deadline extends Task {
 
     @Override
     public String toSaveString() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + this.deadline.format(FORMATTER);
+        String result = "D | " + (isDone ? "1" : "0") + " | " + description + " | " + this.deadline.format(FORMATTER);
+        if (isTagged()) {
+            return result + " | " + tag;
+        }
+        return result;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + this.deadline.format(FORMATTER) + ")";
+        String result = "[D]" + super.toString() + "\n       (by: " + this.deadline.format(FORMATTER) + ")";
+        return result;
     }
 }

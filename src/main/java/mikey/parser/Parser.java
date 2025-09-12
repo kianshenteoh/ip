@@ -1,13 +1,14 @@
 package mikey.parser;
 
 import mikey.exception.MikeyException;
+import mikey.main.Mikey;
 
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Parser {
-    public enum Command { LIST, TODO, DEADLINE, EVENT, MARK, UNMARK, DELETE, BYE, FIND }
+    public enum Command { LIST, TODO, DEADLINE, EVENT, MARK, UNMARK, DELETE, BYE, FIND, TAG }
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
@@ -18,6 +19,7 @@ public class Parser {
         public LocalDateTime fromRaw;
         public LocalDateTime toRaw;
         public String keyword;
+        public String label;
     }
 
     public static class ParseResult {
@@ -107,6 +109,13 @@ public class Parser {
             case "find":
                 try {
                     handleFind(r, command, args);
+                } catch (MikeyException e) {
+                    return error(e.getMessage());
+                }
+                break;
+            case "tag":
+                try {
+                    handleTag(r, command, args);
                 } catch (MikeyException e) {
                     return error(e.getMessage());
                 }
@@ -233,5 +242,26 @@ public class Parser {
             throw new MikeyException("Provide only ONE keyword! E.g. find book");
         }
         r.arguments.keyword = words[0];
+    }
+
+    private void handleTag(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Provide a tag number! E.g. tag 1 lesson");
+        }
+        r.command = Command.TAG;
+        r.arguments = new Arguments();
+        String[] arr = args.split("\\s+", 2);
+        if (arr.length < 2) {
+            throw new MikeyException("Provide a tag label! E.g. tag 1 lesson");
+        }
+        if (arr.length > 2) {
+            throw new MikeyException("Tag label can only be ONE word! E.g. tag 1 lesson");
+        }
+        try {
+            r.arguments.index = Integer.parseInt(arr[0]);
+            r.arguments.label = arr[1];
+        } catch (NumberFormatException e) {
+            throw new MikeyException("Provide a valid task number! E.g. tag 1 lesson");
+        }
     }
 }

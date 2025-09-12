@@ -12,11 +12,16 @@ public class Todo extends Task {
 
     @Override
     public String toSaveString() {
-        return "T | " + (isDone ? "1" : "0") + " | " + description;
+        String result = "T | " + (isDone ? "1" : "0") + " | " + description;
+        if (isTagged()) {
+            return result + " | " + tag;
+        }
+        return result;
     }
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        String result = "[T]" + super.toString();
+        return result;
     }
 }

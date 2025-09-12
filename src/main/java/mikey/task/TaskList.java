@@ -85,6 +85,22 @@ public class TaskList {
     }
 
     /**
+     * Tags the task in the tasklist
+     * @param index Index of task to be tagged
+     * @param label Label of tag
+     * @return
+     */
+    public Task tagTask(int index, String label) {
+        if (index >= 0 && index < tasks.size()) {
+            Task currTask = tasks.get(index);
+            currTask.setTag(label);
+            return currTask;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Returns the size of the task list
      * @return Size of task list
      */

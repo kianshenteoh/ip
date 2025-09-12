@@ -83,6 +83,10 @@ public class Mikey {
         case FIND:
             List<Task> foundTasks = tasks.findTasks(result.arguments.keyword);
             return ui.printFoundTasks(foundTasks);
+        case TAG:
+            Task tagged = tasks.tagTask(result.arguments.index - 1, result.arguments.label);
+            storage.save(tasks.getList());
+            return ui.printTagTask(tagged);
         default:
             return "";
         }
@@ -132,6 +136,6 @@ public class Mikey {
     }
 
     public static void main(String[] args) {
-        new Mikey("../data/mikey.txt").run();
+        new Mikey("data/mikey.txt").run();
     }
 }

@@ -106,13 +106,25 @@ public class Ui {
         }
     }
 
-
+    /**
+     * Print the message when finding a task
+     * @param l List of tasks
+     * @return
+     */
     public String printFoundTasks(List<Task> l) {
         if (l.isEmpty()) {
             return format("No matching tasks found!");
         } else {
             String result = (LINE + " Here are the matching tasks in your list: \n ");
             return result + l.stream().map(t -> t.toString()).collect(Collectors.joining("\n")) + LINE;
+        }
+    }
+
+    public String printTagTask(Task t) {
+        if (t != null) {
+            return format("OK, I've tagged this task:\n  " + t.toString());
+        } else {
+            return format("Task does not exist!");
         }
     }
 

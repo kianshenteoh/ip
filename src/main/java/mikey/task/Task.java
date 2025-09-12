@@ -3,6 +3,8 @@ package mikey.task;
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected String tag;
+    protected boolean tagged;
 
     /**
      * Initializes a Task instance
@@ -11,6 +13,7 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        this.tag = "";
     }
 
     /**
@@ -46,16 +49,48 @@ public class Task {
     }
 
     /**
+     * Returns true if task is tagged
+     * @return if task is tagged
+     */
+    public boolean isTagged() {
+        return tagged;
+    }
+
+    /**
+     * Mark this task as tagged
+     */
+    public void markTagged() {
+        tagged = true;
+    }
+
+    /**
+     * Set this task's tag
+     * @param tag This task's tag
+     */
+    public void setTag(String tag) {
+        this.markTagged();
+        this.tag = tag;
+    }
+
+    /**
      * Returns a string to be stored in storage file
      *
      * @return String to be saved
      */
     public String toSaveString() {
-        return "? | " + (isDone ? "1" : "0") + " | " + description;
+        String result = "? | " + (isDone ? "1" : "0") + " | " + description;
+        if (isTagged()) {
+            return result + " | " +  tag;
+        }
+        return result;
     }
 
     @Override
     public String toString() {
-        return "[" + this.getStatusIcon() + "] " + this.description;
+        String result = "[" + this.getStatusIcon() + "] " + this.description;
+        if (isTagged()) {
+            return result + "\n       tag: " + tag;
+        }
+        return result;
     }
 }

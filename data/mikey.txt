@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream
-T | 0 | meet someone
-E | 0 | meeting | Dec 02 2025, 6.00pm | Dec 02 2025, 9.00pm
-D | 1 | assignment | Aug 27 2025, 11.59pm
-=======
-T | 1 | meet someone
-E | 1 | meeting | Dec 02 2025, 6.00pm | Dec 02 2025, 9.00pm
-D | 0 | assignment | Aug 27 2025, 11.59pm
+T | 1 | meet someone | meeting
+E | 1 | meeting | Dec 02 2025, 6.00pm | Dec 02 2025, 9.00pm | meeting
+D | 0 | assignment | Aug 27 2025, 11.59pm | homework
 T | 0 | go for a run
->>>>>>> Stashed changes

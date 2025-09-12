@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
-    private Mikey mikey = new Mikey("../data/mikey.txt");
+    private Mikey mikey = new Mikey("data/mikey.txt");
 
     @Override
     public void start(Stage stage) {
