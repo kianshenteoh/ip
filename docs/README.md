@@ -10,7 +10,6 @@ Mikey is your personal assistant for your everyday life!
 
 ## Feature 1: Adding tasks
 
---- 
 ### Three types of tasks are available
 1. Todo tasks
 2. Deadline tasks
@@ -29,8 +28,8 @@ Example usages:
 > Note that the DateTimeFormat must follow the above format
 
 
-Feature 2: Adding tasks
---- 
+## Feature 2: Adding tasks
+
 Usage: `list`
 
 Example output:
@@ -45,15 +44,14 @@ Here are the tasks in your list:
 ```
 
 ## Feature 3: Deleting tasks
+ 
 
---- 
 Usage: `delete <index>`
 
 Example usage: `delete 2`
 
 ## Feature 4: Mark/Unmark task as done
 
---- 
 Usage:
 * `mark <index>`
 * `unmark <index>`
@@ -64,7 +62,6 @@ Example usage:
 
 ## Feature 5: Find task
 
---- 
 Usage: `find <keyword>`
 
 Example usage: `find meet`
@@ -72,7 +69,6 @@ Example usage: `find meet`
 
 ## Feature 6: Tag task
 
---- 
 Usage: `tag <index> <label>`
 
 Example usage: `tag 2 homework`
@@ -80,6 +76,5 @@ Example usage: `tag 2 homework`
 
 ## Feature 7: Exit app
 
---- 
 Usage: `bye`
 > This will exit the app automatically!
