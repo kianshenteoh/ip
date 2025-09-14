@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ui {
-    private static final String LINE = "  ________________________________________________________";
+    private static final String LINE = "  ______________________________________";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final String SPACING = "  ";
 

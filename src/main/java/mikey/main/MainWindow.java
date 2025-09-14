@@ -33,10 +33,23 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     public void initialize() {
+        // Improved auto-scrolling
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        // Add focus to input field for better UX
+        Platform.runLater(() -> userInput.requestFocus());
+
+        // Improve button hover effects
+        sendButton.setOnMouseEntered(e ->
+                sendButton.setStyle(sendButton.getStyle() + "-fx-background-color: #0056CC;")
+        );
+        sendButton.setOnMouseExited(e ->
+                sendButton.setStyle(sendButton.getStyle().replace("-fx-background-color: #0056CC;",
+                        "-fx-background-color: #007AFF;"))
+        );
     }
 
-    /** Injects the Duke instance */
+    /** Injects the Mikey instance */
     public void setMikey(Mikey d) {
         mikey = d;
 
@@ -47,12 +60,18 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing Mikey's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
     private void handleUserInput() {
-        String input = userInput.getText();
+        String input = userInput.getText().trim();
+
+        // Don't process empty inputs
+        if (input.isEmpty()) {
+            return;
+        }
+
         String response = mikey.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
@@ -60,8 +79,11 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
 
+        // Keep focus on input field
+        userInput.requestFocus();
+
         if (mikey.isExit()) {
-            PauseTransition delay = new PauseTransition(Duration.millis(300));
+            PauseTransition delay = new PauseTransition(Duration.millis(500));
             delay.setOnFinished(e -> Platform.exit());
             delay.play();
         }

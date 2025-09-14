@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import mikey.main.MainWindow;
 
 /**
@@ -24,7 +25,7 @@ public class DialogBox extends HBox {
     @FXML
     private ImageView displayPicture;
 
-    private DialogBox(String text, Image img) {
+    private DialogBox(String text, Image img, boolean isError) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -36,24 +37,69 @@ public class DialogBox extends HBox {
 
         dialog.setText(text);
         displayPicture.setImage(img);
+
+        // Apply error styling if needed
+        if (isError) {
+            applyErrorStyling();
+        }
     }
 
     /**
      * Flips the dialog box such that the ImageView is on the left and text on the right.
+     * Also applies Mikey-specific styling.
      */
     private void flip() {
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
+
+        // Apply Mikey styling (bot responses)
+        dialog.setStyle(dialog.getStyle() +
+                "-fx-background-color: white; -fx-text-fill: #333333; " +
+                "-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 15;");
+    }
+
+    /**
+     * Applies styling for user messages
+     */
+    private void applyUserStyling() {
+        dialog.setStyle(dialog.getStyle() +
+                "-fx-background-color: #007AFF; -fx-text-fill: white;");
+    }
+
+    /**
+     * Applies styling for error messages
+     */
+    private void applyErrorStyling() {
+        dialog.setStyle(dialog.getStyle() +
+                "-fx-background-color: #FF3B30; -fx-text-fill: white; " +
+                "-fx-border-color: #FF1744; -fx-border-width: 1; -fx-border-radius: 15;");
+    }
+
+    /**
+     * Makes the profile picture circular
+     */
+    private void makeImageCircular() {
+        Circle clip = new Circle(25, 25, 25);
+        displayPicture.setClip(clip);
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        DialogBox dialog = new DialogBox(text, img, false);
+        dialog.applyUserStyling();
+        return dialog;
     }
 
     public static DialogBox getMikeyDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
+        // Check if this is an error message based on common error indicators
+        boolean isError = text.contains("Invalid input!") ||
+                text.contains("cannot be empty!") ||
+                text.contains("Please") ||
+                text.contains("Provide") ||
+                text.contains("does not exist!");
+
+        DialogBox db = new DialogBox(text, img, isError);
         db.flip();
         return db;
     }
