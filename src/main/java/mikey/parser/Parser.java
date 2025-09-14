@@ -44,15 +44,21 @@ public class Parser {
      * @return parse result
      */
     public ParseResult parse(String input) {
-        assert input != null : "Input string must not be null";
-
-        ParseResult r = new ParseResult();
-        if (input == null || input.trim().isEmpty()) {
+        // Handle null input gracefully instead of assertion
+        if (input == null) {
             return error("Please input a valid command");
         }
-        String[] parts = input.trim().split("\\s+", 2);
-        String command = parts[0];
-        String args = (parts.length == 2) ? parts[1].trim() : "";
+
+        // Normalize input
+        String normalizedInput = normalizeInput(input);
+
+        ParseResult r = new ParseResult();
+        if (normalizedInput == null || normalizedInput.isEmpty()) {
+            return error("Please input a valid command");
+        }
+        String[] parts = normalizedInput.split("\\s+", 2);
+        String command = parts[0].toLowerCase(); // Make case insensitive
+        String args = (parts.length == 2) ? parts[1] : "";
         if (!command.isEmpty()) {
             switch (command) {
             case "bye":
@@ -121,7 +127,7 @@ public class Parser {
                 }
                 break;
             default:
-                return error("Invalid input!");
+                return error("Unknown command: '" + command);
             }
             if (r.command == null) {
                 return error("Please input a valid command");
@@ -139,7 +145,26 @@ public class Parser {
         r.arguments = new Arguments();
     }
 
+    /**
+     * Validates and normalizes input string
+     */
+    private String normalizeInput(String input) {
+        if (input == null) {
+            return null;
+        }
+        // Remove leading/trailing whitespace and normalize multiple spaces
+        return input.trim().replaceAll("\\s+", " ");
+    }
+
     private void handleTodo(ParseResult r, String command, String args) throws MikeyException {
+        if (args.isEmpty()) {
+            throw new MikeyException("Todo description cannot be empty! Use: todo <description>");
+        }
+
+        if (args.length() > 200) {
+            throw new MikeyException("Todo description is too long (max 200 characters)");
+        }
+
         r.command = Command.TODO;
         r.arguments = new Arguments();
         r.arguments.description = args;
@@ -150,6 +175,13 @@ public class Parser {
             throw new MikeyException("The description of a deadline cannot be empty! "
                     + "Use: deadline <desc> /by <time>");
         }
+
+        // Check for multiple /by keywords
+        String[] byParts = args.split("/by");
+        if (byParts.length > 2) {
+            throw new MikeyException("Multiple '/by' keywords found. Use only one '/by' in the command.");
+        }
+
         r.command = Command.DEADLINE;
         r.arguments = new Arguments();
         String[] descDeadline = args.split("\\s*/by\\s+", 2);
@@ -184,6 +216,12 @@ public class Parser {
         try {
             LocalDateTime from = LocalDateTime.parse(timesEvent[0].trim(), FORMATTER);
             LocalDateTime to = LocalDateTime.parse(timesEvent[1].trim(), FORMATTER);
+
+            // Validate that end time is after start time
+            if (!to.isAfter(from)) {
+                throw new MikeyException("Event end time must be after start time");
+            }
+
             r.arguments.description = descEvent[0].trim();
             r.arguments.fromRaw = from;
             r.arguments.toRaw = to;
