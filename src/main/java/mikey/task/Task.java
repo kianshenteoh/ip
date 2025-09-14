@@ -57,14 +57,14 @@ public class Task {
     }
 
     /**
-     * Mark this task as tagged
+     * Marks this task as tagged
      */
     public void markTagged() {
         tagged = true;
     }
 
     /**
-     * Set this task's tag
+     * Sets this task's tag
      * @param tag This task's tag
      */
     public void setTag(String tag) {

@@ -23,7 +23,7 @@ public class Ui {
     }
 
     /**
-     * Print the list of tasks
+     * Prints the list of tasks
      * @param t TaskList to be printed
      * @return String to be printed
      */
@@ -45,7 +45,7 @@ public class Ui {
     }
 
     /**
-     * Print the message upon deleting a task
+     * Prints the message upon deleting a task
      * @param t Deleted task
      * @return String to be printed
      */
@@ -58,7 +58,7 @@ public class Ui {
     }
 
     /**
-     * Print the message upon adding a task
+     * Prints the message upon adding a task
      * @param t Added task
      * @return String to be printed
      */
@@ -68,7 +68,7 @@ public class Ui {
     }
 
     /**
-     * Print the message upon marking a task as done
+     * Prints the message upon marking a task as done
      * @param t Marked task
      * @return String to be printed
      */
@@ -81,7 +81,7 @@ public class Ui {
     }
 
     /**
-     * Print the message upon marking a task as not done
+     * Prints the message upon marking a task as not done
      * @param t Unmarked task
      * @return String to be printed
      */
@@ -94,7 +94,7 @@ public class Ui {
     }
 
     /**
-     * Print the message when finding a task
+     * Prints the message when finding a task
      * @param l List of tasks
      * @return
      */
@@ -107,6 +107,11 @@ public class Ui {
         }
     }
 
+    /**
+     * Prints the message when tagging a task
+     * @param t Tagged task
+     * @return
+     */
     public String printTagTask(Task t) {
         if (t != null) {
             return ("OK, I've tagged this task:\n" + t.toString());
