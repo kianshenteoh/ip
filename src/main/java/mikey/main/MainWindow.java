@@ -31,6 +31,7 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image mikeyImage = new Image(this.getClass().getResourceAsStream("/images/mikey.png"));
 
+    //Claude AI was used for improving this method
     @FXML
     public void initialize() {
         // Improved auto-scrolling
@@ -63,6 +64,7 @@ public class MainWindow extends AnchorPane {
      * Creates two dialog boxes, one echoing user input and the other containing Mikey's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
+    //Claude AI was used for improving this method
     @FXML
     private void handleUserInput() {
         String input = userInput.getText().trim();

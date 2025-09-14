@@ -148,6 +148,7 @@ public class Parser {
     /**
      * Validates and normalizes input string
      */
+    //Claude AI was used to form the idea of this method
     private String normalizeInput(String input) {
         if (input == null) {
             return null;

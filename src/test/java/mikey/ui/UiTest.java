@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Claude AI was used for implementing these tests
 class UiTest {
     private Ui ui;
     private TaskList taskList;

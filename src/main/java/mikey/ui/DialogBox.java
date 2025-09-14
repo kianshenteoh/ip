@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
 import mikey.main.MainWindow;
 
 /**
@@ -63,6 +62,7 @@ public class DialogBox extends HBox {
     /**
      * Applies styling for user messages
      */
+    //Claude AI was used for implementing this method
     private void applyUserStyling() {
         dialog.setStyle(dialog.getStyle() +
                 "-fx-background-color: #007AFF; -fx-text-fill: white;");
@@ -71,26 +71,21 @@ public class DialogBox extends HBox {
     /**
      * Applies styling for error messages
      */
+    //Claude AI was used for implementing this method
     private void applyErrorStyling() {
         dialog.setStyle(dialog.getStyle() +
                 "-fx-background-color: #FF3B30; -fx-text-fill: white; " +
                 "-fx-border-color: #FF1744; -fx-border-width: 1; -fx-border-radius: 15;");
     }
 
-    /**
-     * Makes the profile picture circular
-     */
-    private void makeImageCircular() {
-        Circle clip = new Circle(25, 25, 25);
-        displayPicture.setClip(clip);
-    }
-
+    //Claude AI was used for improving this method
     public static DialogBox getUserDialog(String text, Image img) {
         DialogBox dialog = new DialogBox(text, img, false);
         dialog.applyUserStyling();
         return dialog;
     }
 
+    //Claude AI was used for improving this method
     public static DialogBox getMikeyDialog(String text, Image img) {
         // Check if this is an error message based on common error indicators
         boolean isError = text.contains("Invalid input!") ||

@@ -15,6 +15,7 @@ public class Main extends Application {
 
     private Mikey mikey = new Mikey("data/mikey.txt");
 
+    //Claude AI was used for improving this method
     @Override
     public void start(Stage stage) {
         try {

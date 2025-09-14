@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Claude AI was used for implementing these tests
 class EventTest {
 
     @Test

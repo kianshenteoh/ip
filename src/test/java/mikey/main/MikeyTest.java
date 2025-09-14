@@ -9,6 +9,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Claude AI was used for implementing these tests
 class MikeyTest {
     @TempDir
     Path tempDir;
