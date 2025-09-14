@@ -39,63 +39,70 @@ public class Storage {
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            //First run
-            if (Files.notExists(savePath)) {
-                return tasks;
-            }
+            if (Files.notExists(savePath)) return tasks;
+
             List<String> lines = Files.readAllLines(savePath, StandardCharsets.UTF_8);
-            for (String raw : lines) {
-                String line = raw.trim();
-                if (line.isEmpty()) {
-                    continue;
-                }
-
-                //Split lines by spacer
-                String[] p = line.split("\\s*\\|\\s*");
-                if (p.length < 3) {
-                    continue;
-                }
-                String type = p[0];
-                boolean done = "1".equals(p[1]);
-                String desc = p.length >= 3 ? p[2] : "";
-
-                Task t;
-                switch (type) {
-                case "T":
-                    t = new Todo(desc);
-                    if (p.length > 3) {
-                        handleTag(t, p[3]);
-                    }
-                    break;
-                case "D":
-                    String by = p[3];
-                    LocalDateTime deadline = LocalDateTime.parse(by, FORMATTER);
-                    t = new Deadline(desc, deadline);
-                    if (p.length > 4) {
-                        handleTag(t, p[4]);
-                    }
-                    break;
-                case "E":
-                    String from = p[3];
-                    String to = p[4];
-                    t = new Event(desc, LocalDateTime.parse(from, FORMATTER), LocalDateTime.parse(to, FORMATTER));
-                    if (p.length > 5) {
-                        handleTag(t, p[5]);
-                    }
-                    break;
-                default:
-                    //Skip unknown rows
-                    continue;
-                }
-                if (done) {
-                    t.markDone();
-                }
-                tasks.add(t);
+            for (String line : lines) {
+                Task task = parseTaskFromLine(line.trim());
+                if (task != null) tasks.add(task);
             }
         } catch (IOException e) {
             return new ArrayList<>();
         }
         return tasks;
+    }
+
+    /**
+     * Parses the task in each line
+     * @param line Line to be read
+     * @return Parsed task
+     */
+    private Task parseTaskFromLine(String line) {
+        if (line.isEmpty()) return null;
+
+        String[] parts = line.split("\\s*\\|\\s*");
+        if (parts.length < 3) return null;
+
+        String type = parts[0];
+        boolean done = "1".equals(parts[1]);
+        String desc = parts[2];
+
+        Task task = createTaskByType(type, parts, desc);
+        if (task != null && done) task.markDone();
+        return task;
+    }
+
+    /**
+     * Creates a task according to its type
+     * @param type Type of task
+     * @param parts Arguments of the command
+     * @param desc Description of task
+     * @return
+     */
+    private Task createTaskByType(String type, String[] parts, String desc) {
+        try {
+            switch (type) {
+            case "T":
+                Task todo = new Todo(desc);
+                if (parts.length > 3) handleTag(todo, parts[3]);
+                return todo;
+            case "D":
+                LocalDateTime deadline = LocalDateTime.parse(parts[3], FORMATTER);
+                Task deadlineTask = new Deadline(desc, deadline);
+                if (parts.length > 4) handleTag(deadlineTask, parts[4]);
+                return deadlineTask;
+            case "E":
+                LocalDateTime from = LocalDateTime.parse(parts[3], FORMATTER);
+                LocalDateTime to = LocalDateTime.parse(parts[4], FORMATTER);
+                Task event = new Event(desc, from, to);
+                if (parts.length > 5) handleTag(event, parts[5]);
+                return event;
+            default:
+                return null;
+            }
+        } catch (Exception e) {
+            return null; // Skip malformed tasks
+        }
     }
 
     private void handleTag(Task t, String label) {
