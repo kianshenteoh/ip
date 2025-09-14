@@ -127,7 +127,7 @@ public class Parser {
                 }
                 break;
             default:
-                return error("Unknown command: '" + command);
+                return error("Unknown command: '" + command + "'");
             }
             if (r.command == null) {
                 return error("Please input a valid command");

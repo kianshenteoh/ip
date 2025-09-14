@@ -8,30 +8,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ui {
-    private static final String LINE = "  ______________________________________";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-    private static final String SPACING = "  ";
-
-    public String space(String string) {
-        return SPACING + string;
-    }
-    public String printLine() {
-        return LINE;
-    }
-    public String format(String string) {
-        return LINE + "\n" + space(string) + LINE;
-    }
 
     public String greet() {
-        return format("Hello, I'm Mikey! \n  What can I do for you today?");
+        return ("Hello, I'm Mikey! \nWhat can I do for you today?");
     }
 
     public String bye() {
-        return format("Bye. Hope to see you again soon!");
+        return ("Bye. Hope to see you again soon!");
     }
 
     public String printError(String message) {
-        return format(message);
+        return (message);
     }
 
     /**
@@ -43,17 +31,16 @@ public class Ui {
         assert t != null : "TaskList must not be null";
 
         if (t.getList().isEmpty()) {
-            return format("No tasks yet!");
+            return ("No tasks yet!");
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(LINE + space("\n  Here are the tasks in your list:"));
+        sb.append("Here are the tasks in your list:");
         for (int i = 0; i < t.getList().size(); i++) {
             int index = i + 1;
             Task currTask = t.getList().get(i);
             sb.append("\n");
             sb.append("  " + index + ". " + currTask);
         }
-        sb.append(LINE);
         return sb.toString();
     }
 
@@ -64,9 +51,9 @@ public class Ui {
      */
     public String printDeleteTask(Task t) {
         if (t != null) {
-            return format("Noted. I've removed this task: \n  " +  t.toString());
+            return ("Noted. I've removed this task: \n" +  t.toString());
         } else {
-            return format("Task does not exist!");
+            return ("Task does not exist!");
         }
     }
 
@@ -76,8 +63,8 @@ public class Ui {
      * @return String to be printed
      */
     public String printAddTask(Task t, TaskList l) {
-        return format("Got it, I've added this task: \n  " + space(t.toString())
-                + "\n  Now you have " + l.getList().size() + " tasks in the list.");
+        return ("Got it, I've added this task: \n" + t.toString()
+                + "\nNow you have " + l.getList().size() + " tasks in the list.");
     }
 
     /**
@@ -87,9 +74,9 @@ public class Ui {
      */
     public String printMarkTask(Task t) {
         if (t != null) {
-            return format("Nice! I've marked this task as done:\n  " + t.toString());
+            return ("Nice! I've marked this task as done:\n" + t.toString());
         } else {
-            return format("Task does not exist!");
+            return ("Task does not exist!");
         }
     }
 
@@ -100,9 +87,9 @@ public class Ui {
      */
     public String printUnmarkTask(Task t) {
         if (t != null) {
-            return format("Ok, I've marked this task as not done yet:\n  " + t.toString());
+            return ("Ok, I've marked this task as not done yet:\n" + t.toString());
         } else {
-            return format("Task does not exist!");
+            return ("Task does not exist!");
         }
     }
 
@@ -113,18 +100,18 @@ public class Ui {
      */
     public String printFoundTasks(List<Task> l) {
         if (l.isEmpty()) {
-            return format("No matching tasks found!");
+            return ("No matching tasks found!");
         } else {
-            String result = (LINE + " Here are the matching tasks in your list: \n ");
-            return result + l.stream().map(t -> t.toString()).collect(Collectors.joining("\n")) + LINE;
+            String result = ("Here are the matching tasks in your list: \n");
+            return result + l.stream().map(t -> t.toString()).collect(Collectors.joining("\n"));
         }
     }
 
     public String printTagTask(Task t) {
         if (t != null) {
-            return format("OK, I've tagged this task:\n  " + t.toString());
+            return ("OK, I've tagged this task:\n" + t.toString());
         } else {
-            return format("Task does not exist!");
+            return ("Task does not exist!");
         }
     }
 

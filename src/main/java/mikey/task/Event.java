@@ -32,7 +32,7 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        String result = "[E]" + super.toString() + "\n       (from: " + start.format(FORMATTER) + " to: " +
+        String result = "[E]" + super.toString() + "\n      (from: " + start.format(FORMATTER) + " to: " +
                 end.format(FORMATTER) + ")";
         return result;
     }
