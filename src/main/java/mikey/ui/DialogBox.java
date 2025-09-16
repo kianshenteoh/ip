@@ -1,3 +1,4 @@
+
 package mikey.ui;
 
 import java.io.IOException;
@@ -54,9 +55,9 @@ public class DialogBox extends HBox {
         setAlignment(Pos.TOP_LEFT);
 
         // Apply Mikey styling (bot responses)
-        dialog.setStyle(dialog.getStyle() +
-                "-fx-background-color: white; -fx-text-fill: #333333; " +
-                "-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 15;");
+        dialog.setStyle(dialog.getStyle()
+                + "-fx-background-color: white; -fx-text-fill: #333333; "
+                + "-fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 15;");
     }
 
     /**
@@ -64,8 +65,8 @@ public class DialogBox extends HBox {
      */
     //Claude AI was used for implementing this method
     private void applyUserStyling() {
-        dialog.setStyle(dialog.getStyle() +
-                "-fx-background-color: #007AFF; -fx-text-fill: white;");
+        dialog.setStyle(dialog.getStyle()
+                + "-fx-background-color: #007AFF; -fx-text-fill: white;");
     }
 
     /**
@@ -73,9 +74,9 @@ public class DialogBox extends HBox {
      */
     //Claude AI was used for implementing this method
     private void applyErrorStyling() {
-        dialog.setStyle(dialog.getStyle() +
-                "-fx-background-color: #FF3B30; -fx-text-fill: white; " +
-                "-fx-border-color: #FF1744; -fx-border-width: 1; -fx-border-radius: 15;");
+        dialog.setStyle(dialog.getStyle()
+                + "-fx-background-color: #FF3B30; -fx-text-fill: white; "
+                + "-fx-border-color: #FF1744; -fx-border-width: 1; -fx-border-radius: 15;");
     }
 
     //Claude AI was used for improving this method
@@ -88,11 +89,11 @@ public class DialogBox extends HBox {
     //Claude AI was used for improving this method
     public static DialogBox getMikeyDialog(String text, Image img) {
         // Check if this is an error message based on common error indicators
-        boolean isError = text.contains("Invalid input!") ||
-                text.contains("cannot be empty!") ||
-                text.contains("Please") ||
-                text.contains("Provide") ||
-                text.contains("does not exist!");
+        boolean isError = text.contains("Invalid input!")
+                || text.contains("cannot be empty!")
+                || text.contains("Please")
+                || text.contains("Provide")
+                || text.contains("does not exist!");
 
         DialogBox db = new DialogBox(text, img, isError);
         db.flip();

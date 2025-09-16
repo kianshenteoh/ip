@@ -1,3 +1,4 @@
+
 package mikey.main;
 
 import javafx.animation.PauseTransition;
@@ -31,6 +32,9 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
     private Image mikeyImage = new Image(this.getClass().getResourceAsStream("/images/mikey.png"));
 
+    /**
+     * Initializes the screen
+     */
     //Claude AI was used for improving this method
     @FXML
     public void initialize() {

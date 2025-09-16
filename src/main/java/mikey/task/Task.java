@@ -80,7 +80,7 @@ public class Task {
     public String toSaveString() {
         String result = "? | " + (isDone ? "1" : "0") + " | " + description;
         if (isTagged()) {
-            return result + " | " +  tag;
+            return result + " | " + tag;
         }
         return result;
     }

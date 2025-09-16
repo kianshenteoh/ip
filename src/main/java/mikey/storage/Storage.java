@@ -39,12 +39,16 @@ public class Storage {
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            if (Files.notExists(savePath)) return tasks;
+            if (Files.notExists(savePath)) {
+                return tasks;
+            }
 
             List<String> lines = Files.readAllLines(savePath, StandardCharsets.UTF_8);
             for (String line : lines) {
                 Task task = parseTaskFromLine(line.trim());
-                if (task != null) tasks.add(task);
+                if (task != null) {
+                    tasks.add(task);
+                }
             }
         } catch (IOException e) {
             return new ArrayList<>();
@@ -58,17 +62,23 @@ public class Storage {
      * @return Parsed task
      */
     private Task parseTaskFromLine(String line) {
-        if (line.isEmpty()) return null;
+        if (line.isEmpty()) {
+            return null;
+        }
 
         String[] parts = line.split("\\s*\\|\\s*");
-        if (parts.length < 3) return null;
+        if (parts.length < 3) {
+            return null;
+        }
 
         String type = parts[0];
         boolean done = "1".equals(parts[1]);
         String desc = parts[2];
 
         Task task = createTaskByType(type, parts, desc);
-        if (task != null && done) task.markDone();
+        if (task != null && done) {
+            task.markDone();
+        }
         return task;
     }
 
@@ -84,18 +94,24 @@ public class Storage {
             switch (type) {
             case "T":
                 Task todo = new Todo(desc);
-                if (parts.length > 3) handleTag(todo, parts[3]);
+                if (parts.length > 3) {
+                    handleTag(todo, parts[3]);
+                }
                 return todo;
             case "D":
                 LocalDateTime deadline = LocalDateTime.parse(parts[3], FORMATTER);
                 Task deadlineTask = new Deadline(desc, deadline);
-                if (parts.length > 4) handleTag(deadlineTask, parts[4]);
+                if (parts.length > 4) {
+                    handleTag(deadlineTask, parts[4]);
+                }
                 return deadlineTask;
             case "E":
                 LocalDateTime from = LocalDateTime.parse(parts[3], FORMATTER);
                 LocalDateTime to = LocalDateTime.parse(parts[4], FORMATTER);
                 Task event = new Event(desc, from, to);
-                if (parts.length > 5) handleTag(event, parts[5]);
+                if (parts.length > 5) {
+                    handleTag(event, parts[5]);
+                }
                 return event;
             default:
                 return null;

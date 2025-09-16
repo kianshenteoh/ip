@@ -51,7 +51,7 @@ public class Ui {
      */
     public String printDeleteTask(Task t) {
         if (t != null) {
-            return ("Noted. I've removed this task: \n" +  t.toString());
+            return ("Noted. I've removed this task: \n" + t.toString());
         } else {
             return ("Task does not exist!");
         }
